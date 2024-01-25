@@ -1,76 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import { ethers } from 'ethers';
-import Lock from './contracts/Lock.json';
-import { useAuth } from './store/auth';
-import Navbar from './Components/Navbar';
+import React, { useState } from 'react';
+import { useWeb3 } from '../store/auth';
 
-const contractAddress = "0x0d246A1803161Ea962E7fDDFE6AfbE1AC4316244";
+const AppointmentForm = () => {
+    const { setAppointment } = useWeb3();
 
-const SetAppointment = () => {
+    const [patientAddress, setPatientAddress] = useState('');
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
+    const [diagnosis, setDiagnosis] = useState('');
+    const [prescription, setPrescription] = useState('');
+    const [description, setDescription] = useState('');
+    const [status, setStatus] = useState('');
 
-    const { state } = useAuth();
-    const { contract } = state;
-
-    const [name, setName] = useState("");
-    const [ic, setIC] = useState("");
-    const [phone, setPhone] = useState("");
-    const [dob, setDOB] = useState("");
-    const [height, setHeight] = useState("");
-    const [weight, setWeight] = useState("");
-    const [address, setAddress] = useState("");
-    const [blood, setBlood] = useState("");
-    const [disease, setDisease] = useState("");
-    const [allergy, setAllergy] = useState("");
-    const [medication, setMedication] = useState("");
-
-    const requestAccount = async () => {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-    };
-
-    const fetchData = async () => {
-        if (typeof window.ethereum !== "undefined") {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const contract = new ethers.Contract(contractAddress, Lock.abi, provider);
-            try {
-                // Assuming setDetails is a function you have in your contract
-                const data = await contract.setDetails();
-                console.log("data: ", data);
-            } catch (error) {
-                console.log("Error: ", error);
-            }
+    const handleSetAppointment = async () => {
+        try {
+            await setAppointment(patientAddress, date, time, diagnosis, prescription, description, status);
+            // Optionally, you can add logic to handle success, like displaying a success message.
+            window.alert('Appointment set successfully!');
+        } catch (error) {
+            console.error('Error setting appointment:', error);
+            // Optionally, you can add logic to handle errors, like displaying an error message.
         }
     };
 
-    const setData = async () => {
-        // You need to pass a value to setName here; currently, it's not doing anything
-        setName("exampleName");
-    };
+    return (
+        <>
+        <div className='container1'>
+            <label>Patient Address:</label>
+            <input type="text" value={patientAddress} onChange={(e) => setPatientAddress(e.target.value)} />
 
-    // Use useEffect for fetching data when the component mounts
-    useEffect(() => {
-        fetchData();
-    }, []);
+            <label>Date:</label>
+            <input type="text" value={date} onChange={(e) => setDate(e.target.value)} />
 
+            <label>Time:</label>
+            <input type="text" value={time} onChange={(e) => setTime(e.target.value)} />
 
+            <label>Diagnosis:</label>
+            <input type="text" value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} />
 
-  return (
-      <>
-          <input value={ic} className="_ic" placeholder="IC code" type="text" />
-          <input value={name} className="patient-name" placeholder="name" type="text" />
-          <input value={phone} className="patient-phone-number" placeholder="phone number" type="text" />
-          <input value={dob} className="patient-dob" placeholder="dob eg: 02/02/2000" type="text" />
-          <input value={height} className="patient-height" placeholder="height in cms" type="text" />
-          <input value={weight} className="patient-weight" placeholder="weight in kg" type="text" />
-          <input value={address} className="patient-address" placeholder="address" type="text" />
-          <input value={blood} className="patient-bloodgrp" placeholder="blood group" type="text" />
-          <input value={disease} className="patient-disease" placeholder="allergy / disease" type="text" />
-          <label>*if any</label>
-          <input value={allergy} className="patient-allergy" placeholder="allergies" type="text" />
-          <label>*if taken any</label>
-          <input value={medication} className="patient-medication" placeholder="medication done" type="text" />
-          <button type="submit">Submit</button>
-    </>
-  )
-}
+            <label>Prescription:</label>
+            <input type="text" value={prescription} onChange={(e) => setPrescription(e.target.value)} />
 
-export default SetAppointment
+            <label>Description:</label>
+            <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+
+            <label>Status:</label>
+            <input type="text" value={status} onChange={(e) => setStatus(e.target.value)} />
+
+            <button onClick={handleSetAppointment}>Set Appointment</button>
+            </div>
+            <style>
+                {`
+                    .container1{
+                        display:flex;
+                        justify-content:center;
+                        align-items:center;
+                        flex-direction:column;
+                    }
+                `}
+            </style>
+        </>
+    );
+};
+
+export default AppointmentForm;

@@ -1,27 +1,28 @@
-import React from 'react'
-import Navbar from './Navbar';
-import { AuthProvider } from '../store/auth';
+import React, { useEffect } from 'react';
+import { useWeb3 } from '../store/auth'; // Replace with the correct path
 
-const DoctorProfile = () => {
+const Doctors = () => {
+    const { doctorsList, getDoctors } = useWeb3();
+
+    useEffect(() => {
+        // Fetch the list of doctors' addresses when the component mounts
+        getDoctors();
+    }, [doctorsList]);
 
     return (
-        <>
-            <h1>Doctor Details</h1>
-            <img className="doctor-img" />
-            <h3 className="doctor-name">{ }</h3>
-            <h4 className="description">{ }</h4>
-        </>
-    )
-}
-
-const Doctor = () => {
-  return (
-      <>
-          <div className="doctor-profile">
-              <DoctorProfile/>
+        <div>
+            <h2>Doctors List</h2>
+            {doctorsList.length > 0 ? (
+                <ul>
+                    {doctorsList.map((doctorAddress, index) => (
+                        <li key={index}>{doctorAddress}</li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No doctors found.</p>
+            )}
         </div>
-    </>
-  )
-}
+    );
+};
 
-export default Doctor;
+export default Doctors;
