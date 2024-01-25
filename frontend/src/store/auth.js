@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
-import { ethers } from "ethers";
-import abi from '../Fake.json'
+import { ethers } from 'ethers';
+import abi from '../contracts/Lock.json';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const [isloggedin, setIsloggedIn] = useState(false);
     const [address, setAddress] = useState(null);
     const connectWallet = async () => {
-        const contractAddress = "0x5cB31709264448AceDa4E1C41a050625AD01060a";
+        const contractAddress = "0x0d246A1803161Ea962E7fDDFE6AfbE1AC4316244";
 
         const contractABI = abi.abi;
         try {
@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }) => {
                 );
                 setAddress(account[0]);
                 setState({ provider, signer, contract });
+                console.log("Contract: ",contractABI);
             } else {
                 alert('Please install and log in to Metamask wallet to initiate the transaction.');
             }

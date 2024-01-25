@@ -1,23 +1,21 @@
+import React, { useState, useEffect } from 'react';
+import Navbar from './Components/Navbar';
+import Doctor from './Components/Doctor';
+import Dashboard from './Components/Dashboard';
+import SetAppointment from './Components/SetAppointment';
 import { Route, Routes } from 'react-router-dom';
-
-import './App.css';
-import Home from './components/Home';
-import Register from './components/Register';
-import Login from './components/Login';
-import User from './components/User';
-import Manufacturer from './components/Manufacturer';
 
 
 function App() {
+  
 
   return (
     <>
+      <Navbar />
       <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route exact path='/register' element={<Register />} />
-        <Route exact path='/user' element={<User />} />
-        <Route exact path='/manufacturer' element={<Manufacturer />} />
-        <Route exact path='/login' element={<Login />} />
+        <Route exact path='/doctor' element={<Doctor />} />
+        <Route exact path='/dashboard' element={<Dashboard />} />
+        <Route exact path='/new-appointment' element={<SetAppointment />} />
       </Routes>
     </>
   );

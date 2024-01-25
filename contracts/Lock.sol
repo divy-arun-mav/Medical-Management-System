@@ -15,8 +15,6 @@ contract Lock {
         string bloodgroup;
         string allergies;
         string medication;
-        string emergencyName;
-        string emergencyContact;
         address addr;
         uint date;
     }
@@ -69,7 +67,7 @@ contract Lock {
     }
     
     //Retrieve patient details from user sign up page and store the details into the blockchain
-    function setDetails(string _ic, string _name, string _phone, string _gender, string _dob, string _height, string _weight, string _houseaddr, string _bloodgroup, string _allergies, string _medication, string _emergencyName, string _emergencyContact) public {
+    function setDetails(string _ic, string _name, string _phone, string _gender, string _dob, string _height, string _weight, string _houseaddr, string _bloodgroup, string _allergies, string _medication) public {
         require(!isPatient[msg.sender]);
         var p = patients[msg.sender];
         
@@ -84,8 +82,6 @@ contract Lock {
         p.bloodgroup = _bloodgroup;
         p.allergies = _allergies;
         p.medication = _medication;
-        p.emergencyName = _emergencyName;
-        p.emergencyContact = _emergencyContact;
         p.addr = msg.sender;
         p.date = block.timestamp;
         
@@ -96,7 +92,7 @@ contract Lock {
     }
     
     //Allows patient to edit their existing record
-    function editDetails(string _ic, string _name, string _phone, string _gender, string _dob, string _height, string _weight, string _houseaddr, string _bloodgroup, string _allergies, string _medication, string _emergencyName, string _emergencyContact) public {
+    function editDetails(string _ic, string _name, string _phone, string _gender, string _dob, string _height, string _weight, string _houseaddr, string _bloodgroup, string _allergies, string _medication) public {
         require(isPatient[msg.sender]);
         var p = patients[msg.sender];
         
@@ -111,8 +107,6 @@ contract Lock {
         p.bloodgroup = _bloodgroup;
         p.allergies = _allergies;
         p.medication = _medication;
-        p.emergencyName = _emergencyName;
-        p.emergencyContact = _emergencyContact;
         p.addr = msg.sender;    
     }
 
@@ -224,13 +218,13 @@ contract Lock {
     }
 
     //Search patient details by entering a patient address (Only record owner or doctor with permission will be allowed to access)
-    function searchPatientMedical(address _address) public view returns(string, string, string, string, string, string) {
-        require(isApproved[_address][msg.sender]);
-        
-        var p = patients[_address];
-        
-        return (p.houseaddr, p.bloodgroup, p.allergies, p.medication, p.emergencyName, p.emergencyContact);
-    }
+function searchPatientMedical(address _address) public view returns(string, string, string, string, string, string) {
+    require(isApproved[_address][msg.sender]);
+    
+    var p = patients[_address];
+    
+    return (p.houseaddr, p.bloodgroup, p.allergies, p.medication, "", "");
+}
 
     //Search doctor details by entering a doctor address (Only doctor will be allowed to access)
     function searchDoctor(address _address) public view returns(string, string, string, string, string, string, string) {
