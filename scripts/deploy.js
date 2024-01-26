@@ -13,4 +13,4 @@ main().catch((error) => {
   process.exitCode = 1;
 });
 
-// contract address: 0x6046912476b658beDA7822433B95b54999da9E50
+// contract address: 0xfC0deA8c101AeA08313664fffa25E6e676e2c301

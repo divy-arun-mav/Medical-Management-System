@@ -4,7 +4,6 @@ pragma solidity ^0.4.17;
 contract Lock {
     
     struct Patients{
-        string ic;
         string name;
         string phone;
         string gender;
@@ -16,17 +15,19 @@ contract Lock {
         string allergies;
         string medication;
         address addr;
+        string report;
         uint date;
     }
 
     struct Doctors{
-        string ic;
+        string license;
         string name;
         string phone;
         string gender;
         string dob;
         string qualification;
         string major;
+        string specialization;
         address addr;
         uint date;
     }
@@ -67,11 +68,10 @@ contract Lock {
     }
     
     //Retrieve patient details from user sign up page and store the details into the blockchain
-    function setDetails(string _ic, string _name, string _phone, string _gender, string _dob, string _height, string _weight, string _houseaddr, string _bloodgroup, string _allergies, string _medication) public {
+    function setDetails(string _name, string _phone, string _gender, string _dob, string _height, string _weight, string _houseaddr, string _bloodgroup, string _allergies, string _medication) public {
         require(!isPatient[msg.sender]);
         var p = patients[msg.sender];
         
-        p.ic = _ic;
         p.name = _name;
         p.phone = _phone;
         p.gender = _gender;
@@ -92,11 +92,10 @@ contract Lock {
     }
     
     //Allows patient to edit their existing record
-    function editDetails(string _ic, string _name, string _phone, string _gender, string _dob, string _height, string _weight, string _houseaddr, string _bloodgroup, string _allergies, string _medication) public {
+    function editDetails(string _name, string _phone, string _gender, string _dob, string _height, string _weight, string _houseaddr, string _bloodgroup, string _allergies, string _medication, string _report) public {
         require(isPatient[msg.sender]);
         var p = patients[msg.sender];
         
-        p.ic = _ic;
         p.name = _name;
         p.phone = _phone;
         p.gender = _gender;
@@ -107,15 +106,16 @@ contract Lock {
         p.bloodgroup = _bloodgroup;
         p.allergies = _allergies;
         p.medication = _medication;
+        p.report=_report;
         p.addr = msg.sender;    
     }
 
     //Retrieve patient details from doctor registration page and store the details into the blockchain
-    function setDoctor(string _ic, string _name, string _phone, string _gender, string _dob, string _qualification, string _major) public {
+    function setDoctor(string _license, string _name, string _phone, string _gender, string _dob, string _qualification, string _major) public {
         require(!isDoctor[msg.sender]);
         var d = doctors[msg.sender];
         
-        d.ic = _ic;
+        d.license = _license;
         d.name = _name;
         d.phone = _phone;
         d.gender = _gender;
@@ -131,11 +131,10 @@ contract Lock {
     }
 
     //Allows doctors to edit their existing profile
-    function editDoctor(string _ic, string _name, string _phone, string _gender, string _dob, string _qualification, string _major) public {
+    function editDoctor(string _name, string _phone, string _gender, string _dob, string _qualification, string _major) public {
         require(isDoctor[msg.sender]);
         var d = doctors[msg.sender];
         
-        d.ic = _ic;
         d.name = _name;
         d.phone = _phone;
         d.gender = _gender;
@@ -209,12 +208,12 @@ contract Lock {
     }
     
     //Search patient details by entering a patient address (Only record owner or doctor with permission will be allowed to access)
-    function searchPatientDemographic(address _address) public view returns(string, string, string, string, string, string, string) {
+    function searchPatientDemographic(address _address) public view returns( string, string, string, string, string, string) {
         require(isApproved[_address][msg.sender]);
         
         var p = patients[_address];
         
-        return (p.ic, p.name, p.phone, p.gender, p.dob, p.height, p.weight);
+        return (p.name, p.phone, p.gender, p.dob, p.height, p.weight);
     }
 
     //Search patient details by entering a patient address (Only record owner or doctor with permission will be allowed to access)
@@ -232,7 +231,7 @@ function searchPatientMedical(address _address) public view returns(string, stri
         
         var d = doctors[_address];
         
-        return (d.ic, d.name, d.phone, d.gender, d.dob, d.qualification, d.major);
+        return (d.license, d.name, d.phone, d.gender, d.dob, d.qualification, d.major);
     }
     
     //Search appointment details by entering a patient address

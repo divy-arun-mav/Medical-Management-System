@@ -13,14 +13,17 @@ import { useWeb3 } from './store/auth';
 function App() {
 
   const { state } = useWeb3();
+  const { contract } = state?.contract;
+
+  console.log(contract);
   
 
   return (
     <>
       <Navbar />
       <Routes>
-        <Route exact path='/doctor-register' element={<Doctors />} />
-        <Route exact path='/doctors' element={<DoctorRegister />} />
+        <Route exact path='/doctors' element={<Doctors />} />
+        <Route exact path='/doctor-register' element={<DoctorRegister />} />
         <Route exact path='/dashboard' element={<Dashboard />} />
         <Route exact path='/new-appointment' element={<SetAppointment />} />
         <Route exact path='/patient-details' element={<SetDetails />} />

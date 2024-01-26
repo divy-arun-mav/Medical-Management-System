@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate , Link } from 'react-router-dom'
-import { useAuth } from '../store/auth';
+import { useWeb3 } from '../store/auth';
 const Navbar = () => {
     const navigate = useNavigate();
-    // const { address, isloggedin } = useAuth();
-    const address = "";
-    const isloggedin = "";
+    const { state } = useWeb3();
+    const [isloggedin, setIsloggedin] = useState("False");
+
 
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg" style={{ maxHeight: "50px" }}>
+            {/* <nav className="navbar navbar-expand-lg" style={{ maxHeight: "50px" }}>
                 <div className="container-fluid" style={{ background: "rgba(255, 255, 255, 0.8)" }}>
                     <a className="navbar-brand fs-4 fw-bolder text-primary" href="#">HealthTrace</a>
                     <button className="navbar-toggler " style={{ "border": "2px solid black" }} type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,13 +26,16 @@ const Navbar = () => {
                                 <Link className="nav-link active" aria-current="page" to='/about'>About Us</Link>
                             </li>
                             <li className="nav-item" style={{ "margin-inline": "10px" }}>
-                                <Link className="nav-link active" aria-current="page" to='/private/contact'>Contact Us</Link>
+                                <Link className="nav-link active" aria-current="page" to='/contact'>Contact Us</Link>
                             </li>
                             <li className="nav-item" style={{ "margin-inline": "10px" }}>
-                                <Link className="nav-link active" aria-current="page" to='/private/history'>History</Link>
+                                <Link className="nav-link active" aria-current="page" to='/doctors'>Doctor</Link>
                             </li>
                             <li className="nav-item" style={{ "margin-inline": "10px" }}>
-                                <Link className="nav-link active" aria-current="page" to='/private/payment'>Send&Receive</Link>
+                                <Link className="nav-link active" aria-current="page" to='/patients'>Patient</Link>
+                            </li>
+                            <li className="nav-item" style={{ "margin-inline": "10px" }}>
+                                <button className="btn btn-outline-primary ms-2" onClick={connectWallet} type="submit">{account ? (account.slice(0, 4) + "..." + account.slice(38)) : "Connect"}</button>
                             </li>
                         </ul>
                         <form className="d-flex fs-6 fw-medium ms-auto" >
@@ -47,7 +50,8 @@ const Navbar = () => {
                         </form>
                     </div>
                 </div>
-            </nav>
+            </nav> */}
+            Navbar
             <style>{`
             *{
                 margin: 0;
